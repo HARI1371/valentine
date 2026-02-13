@@ -10,13 +10,39 @@ body{
     padding:0;
     font-family:'Segoe UI',sans-serif;
     text-align:center;
-    background:linear-gradient(135deg,#ff758c,#ff7eb3);
+    background:linear-gradient(135deg,#ff5f6d,#ffc371);
     color:white;
-    overflow-x:hidden;
+    overflow:hidden;
+}
+
+/* Floating Hearts */
+.heart{
+    position:fixed;
+    bottom:-20px;
+    font-size:20px;
+    animation: floatUp 8s linear infinite;
+    opacity:0.8;
+}
+
+@keyframes floatUp{
+    0%{transform:translateY(0) scale(1);}
+    100%{transform:translateY(-110vh) scale(1.5);opacity:0;}
+}
+
+/* Ring Shower */
+.ring{
+    position:fixed;
+    top:-50px;
+    font-size:30px;
+    animation: fallDown 5s linear forwards;
+}
+
+@keyframes fallDown{
+    to{transform:translateY(110vh);}
 }
 
 h1{margin-top:60px;font-size:34px;}
-p{width:85%;margin:20px auto;font-size:18px;line-height:1.6;}
+p{width:85%;margin:20px auto;font-size:18px;}
 
 button{
     padding:14px 28px;
@@ -25,10 +51,8 @@ button{
     border-radius:12px;
     margin:15px;
     cursor:pointer;
-    transition:0.3s;
 }
 
-button:hover{transform:scale(1.1);}
 #yesBtn{background:#ff2e63;color:white;}
 #noBtn{background:white;color:#ff2e63;position:absolute;}
 
@@ -38,7 +62,6 @@ input{
     padding:10px;
     border-radius:8px;
     border:none;
-    font-size:16px;
 }
 
 .slideshow img{
@@ -46,23 +69,17 @@ input{
     height:380px;
     object-fit:cover;
     border-radius:20px;
-    box-shadow:0 0 20px rgba(0,0,0,0.5);
-    animation:fade 2s;
-}
-
-@keyframes fade{
-    from{opacity:0;}
-    to{opacity:1;}
+    box-shadow:0 0 25px rgba(0,0,0,0.6);
 }
 
 .bigText{
-    font-size:42px;
+    font-size:45px;
     animation: glow 2s infinite alternate;
 }
 
 @keyframes glow{
     from{text-shadow:0 0 10px white;}
-    to{text-shadow:0 0 30px yellow;}
+    to{text-shadow:0 0 40px gold;}
 }
 </style>
 </head>
@@ -73,12 +90,8 @@ input{
 <h1>Will you be my Valentine, Nivetha? 💖</h1>
 <p>
 I searched for success…  
-Life whispered “Not here.”  
-I chose higher studies.  
-Faced problems alone.  
-
-And then in college…  
-I found you. ❤️  
+Life said not here.  
+Then in college… I found you ❤️
 </p>
 <button id="yesBtn" onclick="startLove()">YES 💕</button>
 <button id="noBtn" onclick="moveButton()">NO 😏</button>
@@ -89,9 +102,18 @@ I found you. ❤️
 <div id="slideshowSection" class="hidden"></div>
 <div id="finalScreen" class="hidden"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
 <script>
+/* Floating Hearts */
+setInterval(()=>{
+    let heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="❤️";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(15+Math.random()*30)+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),8000);
+},400);
+
 let noCount=0;
 let step=0;
 
@@ -101,14 +123,13 @@ function moveButton(){
     btn.style.left=Math.random()*(window.innerWidth-100)+"px";
     btn.style.top=Math.random()*(window.innerHeight-100)+"px";
     if(noCount>=3){
-        alert("Destiny already chose YES 😌❤️");
+        alert("Destiny already chose YES ❤️");
     }
 }
 
 function startLove(){
     document.getElementById("page1").classList.add("hidden");
     document.getElementById("quiz").classList.remove("hidden");
-    confetti({particleCount:200,spread:120});
     nextStep();
 }
 
@@ -120,22 +141,22 @@ function nextStep(){
     if(step===0){
         q.innerHTML=`<h1>Where did we first meet?</h1>
         <input id="ans"><br>
-        <button onclick="checkAnswer('college','College ❤️ The place where destiny started writing our love story.')">Submit</button>`;
+        <button onclick="checkAnswer('college','College ❤️ Destiny began there.')">Submit</button>`;
     }
     else if(step===1){
-        q.innerHTML=`<h1>What was our first movie together?</h1>
+        q.innerHTML=`<h1>Our first movie together?</h1>
         <input id="ans"><br>
-        <button onclick="checkAnswer('brahmastra','Brahmastra 🎬 Just like that movie, our love has magic.')">Submit</button>`;
+        <button onclick="checkAnswer('brahmastra','Brahmastra 🎬 Our love has magic.')">Submit</button>`;
     }
     else if(step===2){
         q.innerHTML=`<h1>Hari's favourite sport?</h1>
         <input id="ans"><br>
-        <button onclick="checkAnswer('cricket','Cricket 🏏 But he left that love... because you became his world.')">Submit</button>`;
+        <button onclick="checkAnswer('cricket','He left cricket only for you ❤️')">Submit</button>`;
     }
     else if(step===3){
         q.innerHTML=`<h1>Hari's favourite thing?</h1>
         <input id="ans"><br>
-        <button onclick="checkAnswer('car','Cars 🚗 Every time he drives, he only thinks about you.')">Submit</button>`;
+        <button onclick="checkAnswer('car','Every drive reminds him of you 🚗❤️')">Submit</button>`;
     }
     else{
         showSlideshow();
@@ -148,9 +169,8 @@ function checkAnswer(correct,message){
         document.getElementById("compliment").classList.remove("hidden");
         document.getElementById("compliment").innerHTML=`<p>${message}</p>
         <button onclick="continueFlow()">Continue ❤️</button>`;
-        confetti({particleCount:150,spread:100});
     }else{
-        alert("Think again my love 😌");
+        alert("Think again 😌");
     }
 }
 
@@ -159,6 +179,7 @@ function continueFlow(){
     nextStep();
 }
 
+/* 6 Images */
 let images=[
 "photo1.jpg",
 "photo2.jpg",
@@ -176,11 +197,11 @@ function showSlideshow(){
 
     let s=document.getElementById("slideshowSection");
     s.classList.remove("hidden");
-    s.classList.add("slideshow");
 
-    s.innerHTML="<h1>Our Beautiful Memories 💖</h1>";
+    s.innerHTML="<h1>Our Memories 💖</h1>";
     let img=document.createElement("img");
     img.src=images[index];
+    img.onerror=function(){this.src="https://via.placeholder.com/300x400?text=Upload+Photos";};
     s.appendChild(img);
 
     let interval=setInterval(()=>{
@@ -202,23 +223,45 @@ function showFinal(){
     f.innerHTML=`
     <div class="bigText">
     HARI LOVES YOU 💖<br><br>
-    More than anyone could...  
-    More than anything in this world...  
-    Hari loves you ❤️
+    More than anyone...  
+    More than anything...
     </div>
     <br><br>
     <button onclick="lastTamil()">Final Surprise</button>
     `;
-
-    confetti({particleCount:400,spread:150});
 }
 
 function lastTamil(){
+
+    // Ring shower
+    for(let i=0;i<30;i++){
+        let ring=document.createElement("div");
+        ring.className="ring";
+        ring.innerHTML="💍";
+        ring.style.left=Math.random()*100+"vw";
+        ring.style.animationDuration=(3+Math.random()*3)+"s";
+        document.body.appendChild(ring);
+    }
+
+    // Massive hearts explosion
+    for(let i=0;i<100;i++){
+        let heart=document.createElement("div");
+        heart.className="heart";
+        heart.innerHTML="❤️";
+        heart.style.left=Math.random()*100+"vw";
+        heart.style.fontSize=(20+Math.random()*40)+"px";
+        document.body.appendChild(heart);
+    }
+
+    // Grand music
+    let audio=new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3");
+    audio.volume=0.5;
+    audio.play();
+
     document.getElementById("finalScreen").innerHTML=`
     <div class="bigText">
-    Na unaaaa rombaaaaa loveeeee panraaaaaaaa ❤️❤️❤️
+    Na unaaa rombaa rombaaa robaaa rombaaa love panraaaaaaaa ❤️❤️❤️
     </div>`;
-    confetti({particleCount:500,spread:200});
 }
 </script>
 
