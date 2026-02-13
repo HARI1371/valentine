@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>For Nivetha ❤️</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            text-align: center;
+            font-family: Arial, sans-serif;
+            padding-top: 100px;
+        }
+
+        h1 {
+            font-size: 40px;
+            color: white;
+        }
+
+        p {
+            font-size: 20px;
+            color: white;
+            width: 70%;
+            margin: auto;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 20px;
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+        }
+
+        #noBtn {
+            background-color: white;
+            color: #ff4d6d;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Will you be my Valentine, Nivetha? 💖</h1>
+
+    <p>
+        I once went searching for success…  
+        The sky whispered, “This is not your place.”  
+        I walked through storms and silent nights.  
+        I chose higher studies. I chose growth.  
+        I faced problems alone.  
+        And in the middle of all that chaos…  
+        I found you.  
+
+        Like in the movies where love arrives when the hero least expects it…  
+        You became my destiny. ❤️
+    </p>
+
+    <button id="yesBtn" onclick="yesClicked()">YES 💕</button>
+    <button id="noBtn" onclick="moveButton()">NO 😏</button>
+
+<script>
+let count = 0;
+
+function moveButton() {
+    count++;
+    let button = document.getElementById("noBtn");
+    let x = Math.random() * window.innerWidth;
+    let y = Math.random() * window.innerHeight;
+    button.style.left = x + "px";
+    button.style.top = y + "px";
+
+    if (count >= 3) {
+        alert("I think destiny already chose YES 😌❤️");
+    }
+}
+
+function yesClicked() {
+    document.body.innerHTML = `
+    <h1 style="color:white; padding-top:100px;">
+    You just made my world brighter, Nivetha 💖✨<br><br>
+    This is just the beginning of our beautiful story...
+    </h1>
+    `;
+}
+</script>
+
+</body>
+</html>
