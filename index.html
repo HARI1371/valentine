@@ -5,17 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+*{box-sizing:border-box;}
+
 body{
     margin:0;
     padding:0;
     font-family:'Segoe UI',sans-serif;
-    text-align:center;
-    background:black;
     color:white;
+    text-align:center;
     overflow:hidden;
 }
 
-/* Animated Background */
+/* Animated Romantic Background */
 body::before{
     content:"";
     position:fixed;
@@ -33,15 +34,32 @@ body::before{
     100%{background-position:0% 50%;}
 }
 
-h1{margin-top:60px;font-size:34px;}
-p{width:85%;margin:20px auto;font-size:18px;}
+.container{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
+
+h1{
+    font-size:28px;
+    margin-bottom:15px;
+}
+
+p{
+    font-size:16px;
+    line-height:1.6;
+    margin-bottom:20px;
+}
 
 button{
-    padding:14px 28px;
-    font-size:17px;
+    padding:12px 24px;
+    font-size:16px;
     border:none;
-    border-radius:12px;
-    margin:15px;
+    border-radius:10px;
+    margin:10px;
     cursor:pointer;
     background:#ff2e63;
     color:white;
@@ -53,24 +71,37 @@ button{
     position:absolute;
 }
 
-.hidden{display:none;}
-
 input{
     padding:10px;
-    border-radius:8px;
+    width:80%;
+    max-width:250px;
     border:none;
+    border-radius:8px;
+    font-size:16px;
 }
 
-/* Slideshow FULL IMAGE FIX */
+/* Slideshow */
 .slideshow img{
-    max-width:90%;
-    max-height:80vh;
+    max-width:95%;
+    max-height:75vh;
     object-fit:contain;
-    border-radius:20px;
-    box-shadow:0 0 30px rgba(0,0,0,0.6);
+    border-radius:15px;
+    box-shadow:0 0 20px rgba(0,0,0,0.6);
 }
 
-/* Floating Hearts */
+/* Love dialogue animation */
+.dialogue{
+    font-size:18px;
+    margin:10px 0;
+    animation:fadeIn 1.5s ease forwards;
+}
+
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+/* Hearts */
 .heart{
     position:fixed;
     font-size:20px;
@@ -82,7 +113,7 @@ input{
     to{transform:translateY(-120vh);}
 }
 
-/* Ring rain */
+/* Rings */
 .ring{
     position:fixed;
     font-size:30px;
@@ -93,28 +124,14 @@ input{
     to{transform:translateY(120vh);}
 }
 
-/* Fullscreen Center Layout */
-.fullscreen{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    text-align:center;
-}
-
-/* Big Center Text */
 .bigText{
-    font-size:55px;
-    animation:zoomIn 3s ease forwards;
+    font-size:30px;
+    text-align:center;
+    animation:zoomIn 2s ease forwards;
 }
 
 @keyframes zoomIn{
-    from{transform:scale(0.5);opacity:0;}
+    from{transform:scale(0.7);opacity:0;}
     to{transform:scale(1);opacity:1;}
 }
 </style>
@@ -122,17 +139,18 @@ input{
 
 <body>
 
-<div id="page1">
+<div id="page1" class="container">
 <h1>Will you be my Valentine, Nivetha? 💖</h1>
-<p>I searched for success… and found you in college ❤️</p>
+<p>I searched for success… but destiny gave me you ❤️</p>
 <button onclick="startLove()">YES 💕</button>
 <button id="noBtn" onclick="moveButton()">NO 😏</button>
 </div>
 
-<div id="quiz" class="hidden"></div>
-<div id="slideshowSection" class="hidden slideshow"></div>
+<div id="quiz" class="container" style="display:none;"></div>
+<div id="slideshowSection" class="container slideshow" style="display:none;"></div>
 
 <script>
+
 let noCount=0;
 let step=0;
 
@@ -147,35 +165,57 @@ function moveButton(){
 }
 
 function startLove(){
-    document.getElementById("page1").classList.add("hidden");
-    document.getElementById("quiz").classList.remove("hidden");
+    document.getElementById("page1").style.display="none";
+    document.getElementById("quiz").style.display="flex";
     nextStep();
 }
 
 function nextStep(){
     let q=document.getElementById("quiz");
 
-    if(step===0){
-        q.innerHTML=`<h1>Where did we first meet?</h1>
+    const dialogues=[
+        [
+        "That place wasn't just college...",
+        "It was where my lonely story changed.",
+        "It was where I saw my future in your eyes.",
+        "From that day, you became my forever."
+        ],
+        [
+        "Brahmastra had magic on screen...",
+        "But our love had magic in real life.",
+        "That movie night was simple...",
+        "But it became one of my favorite memories."
+        ],
+        [
+        "Cricket was once my world...",
+        "But then you became my universe.",
+        "Matches ended...",
+        "But my love for you never will."
+        ],
+        [
+        "Cars give me speed...",
+        "But you give me direction.",
+        "Every road I drive...",
+        "Leads me back to you."
+        ]
+    ];
+
+    if(step<=3){
+        const questions=[
+            "Where did we first meet?",
+            "Our first movie?",
+            "Hari's favourite sport?",
+            "Hari's favourite thing?"
+        ];
+
+        const answers=["college","brahmastra","cricket","car"];
+
+        q.innerHTML=`
+        <h1>${questions[step]}</h1>
         <input id="ans"><br>
-        <button onclick="checkAnswer('college')">Submit</button>`;
-    }
-    else if(step===1){
-        q.innerHTML=`<h1>Our first movie?</h1>
-        <input id="ans"><br>
-        <button onclick="checkAnswer('brahmastra')">Submit</button>`;
-    }
-    else if(step===2){
-        q.innerHTML=`<h1>Hari's favourite sport?</h1>
-        <input id="ans"><br>
-        <button onclick="checkAnswer('cricket')">Submit</button>`;
-    }
-    else if(step===3){
-        q.innerHTML=`<h1>Hari's favourite thing?</h1>
-        <input id="ans"><br>
-        <button onclick="checkAnswer('car')">Submit</button>`;
-    }
-    else{
+        <button onclick="checkAnswer('${answers[step]}')">Submit</button>
+        `;
+    } else {
         showSlideshow();
     }
 }
@@ -183,29 +223,63 @@ function nextStep(){
 function checkAnswer(correct){
     let val=document.getElementById("ans").value.toLowerCase();
     if(val.includes(correct)){
+        showDialogue(step);
         step++;
-        nextStep();
-    }else{
-        alert("Think again 😌");
+    } else {
+        alert("Think again my love 😌");
     }
 }
 
-/* Images */
-let images=[
-"photo1.jpg",
-"photo2.jpg",
-"photo3.jpg",
-"photo4.jpg",
-"photo5.jpg",
-"photo6.jpg"
-];
+function showDialogue(index){
+    let q=document.getElementById("quiz");
+    const dialogues=[
+        [
+        "That place wasn't just college...",
+        "It was where my lonely story changed.",
+        "It was where I saw my future in your eyes.",
+        "From that day, you became my forever."
+        ],
+        [
+        "Brahmastra had magic on screen...",
+        "But our love had magic in real life.",
+        "That movie night was simple...",
+        "But it became one of my favorite memories."
+        ],
+        [
+        "Cricket was once my world...",
+        "But then you became my universe.",
+        "Matches ended...",
+        "But my love for you never will."
+        ],
+        [
+        "Cars give me speed...",
+        "But you give me direction.",
+        "Every road I drive...",
+        "Leads me back to you."
+        ]
+    ];
 
+    q.innerHTML="<h1>❤️</h1>";
+    dialogues[index].forEach(line=>{
+        let p=document.createElement("p");
+        p.className="dialogue";
+        p.innerText=line;
+        q.appendChild(p);
+    });
+
+    let btn=document.createElement("button");
+    btn.innerText="Continue ❤️";
+    btn.onclick=nextStep;
+    q.appendChild(btn);
+}
+
+let images=["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg","photo6.jpg"];
 let index=0;
 
 function showSlideshow(){
-    document.getElementById("quiz").classList.add("hidden");
+    document.getElementById("quiz").style.display="none";
     let s=document.getElementById("slideshowSection");
-    s.classList.remove("hidden");
+    s.style.display="flex";
 
     let img=document.createElement("img");
     img.src=images[index];
@@ -224,9 +298,8 @@ function showSlideshow(){
 }
 
 function showProposal(){
-
     document.body.innerHTML=`
-    <div class="fullscreen">
+    <div class="container">
         <div class="bigText">
         HARI LOVES YOU 💖<br><br>
         More than anyone...<br>
@@ -240,12 +313,11 @@ function showProposal(){
     audio.play();
 
     setTimeout(()=>{
-        for(let i=0;i<150;i++){
+        for(let i=0;i<120;i++){
             let heart=document.createElement("div");
             heart.className="heart";
             heart.innerHTML="❤️";
             heart.style.left=Math.random()*100+"vw";
-            heart.style.fontSize=(20+Math.random()*40)+"px";
             document.body.appendChild(heart);
         }
     },2000);
@@ -262,7 +334,7 @@ function showProposal(){
 
     setTimeout(()=>{
         document.body.innerHTML=`
-        <div class="fullscreen">
+        <div class="container">
             <div class="bigText">
             Na unaaa rombaa rombaaa robaaa rombaaa love panraaaaaaaa ❤️❤️❤️
             </div>
@@ -270,6 +342,7 @@ function showProposal(){
         `;
     },6000);
 }
+
 </script>
 
 </body>
