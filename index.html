@@ -11,29 +11,23 @@ body{
     margin:0;
     padding:0;
     font-family:'Segoe UI',sans-serif;
+    background:#ff1493; /* FULL PINK */
     color:white;
     text-align:center;
     overflow:hidden;
 }
 
-/* Animated Romantic Background */
+/* Soft glowing pink overlay */
 body::before{
     content:"";
     position:fixed;
     width:100%;
     height:100%;
-    background:linear-gradient(45deg,#ff416c,#ff4b2b,#ff758c,#ff7eb3);
-    background-size:400% 400%;
-    animation:gradientMove 15s ease infinite;
+    background:radial-gradient(circle at center,#ff69b4,#ff1493,#c71585);
     z-index:-1;
 }
 
-@keyframes gradientMove{
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
-}
-
+/* Center layout */
 .container{
     display:flex;
     flex-direction:column;
@@ -46,12 +40,14 @@ body::before{
 h1{
     font-size:28px;
     margin-bottom:15px;
+    text-shadow:0 0 10px rgba(0,0,0,0.4);
 }
 
 p{
     font-size:16px;
     line-height:1.6;
     margin-bottom:20px;
+    text-shadow:0 0 10px rgba(0,0,0,0.4);
 }
 
 button{
@@ -61,13 +57,12 @@ button{
     border-radius:10px;
     margin:10px;
     cursor:pointer;
-    background:#ff2e63;
-    color:white;
+    background:white;
+    color:#ff1493;
+    font-weight:bold;
 }
 
 #noBtn{
-    background:white;
-    color:#ff2e63;
     position:absolute;
 }
 
@@ -80,19 +75,19 @@ input{
     font-size:16px;
 }
 
-/* Slideshow */
+/* Slideshow FULL IMAGE */
 .slideshow img{
     max-width:95%;
     max-height:75vh;
     object-fit:contain;
     border-radius:15px;
-    box-shadow:0 0 20px rgba(0,0,0,0.6);
+    box-shadow:0 0 25px rgba(0,0,0,0.6);
 }
 
-/* Love dialogue animation */
+/* Dramatic Dialogue */
 .dialogue{
     font-size:18px;
-    margin:10px 0;
+    margin:8px 0;
     animation:fadeIn 1.5s ease forwards;
 }
 
@@ -101,11 +96,12 @@ input{
     to{opacity:1;}
 }
 
-/* Hearts */
+/* Floating Hearts */
 .heart{
     position:fixed;
     font-size:20px;
     animation: floatUp 6s linear forwards;
+    opacity:0.9;
 }
 
 @keyframes floatUp{
@@ -113,17 +109,26 @@ input{
     to{transform:translateY(-120vh);}
 }
 
-/* Rings */
-.ring{
+/* Extra heart rain */
+.heartRain{
     position:fixed;
-    font-size:30px;
-    animation: fallDown 5s linear forwards;
+    top:-20px;
+    font-size:18px;
+    animation: fallDown 6s linear forwards;
 }
 
 @keyframes fallDown{
     to{transform:translateY(120vh);}
 }
 
+/* Ring rain */
+.ring{
+    position:fixed;
+    font-size:30px;
+    animation: fallDown 5s linear forwards;
+}
+
+/* Big Final Text */
 .bigText{
     font-size:30px;
     text-align:center;
@@ -151,6 +156,28 @@ input{
 
 <script>
 
+/* Continuous floating hearts */
+setInterval(()=>{
+    let heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="❤️";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(15+Math.random()*25)+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+},300);
+
+/* Extra heart rain from top */
+setInterval(()=>{
+    let heart=document.createElement("div");
+    heart.className="heartRain";
+    heart.innerHTML="💖";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(15+Math.random()*25)+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+},500);
+
 let noCount=0;
 let step=0;
 
@@ -170,46 +197,46 @@ function startLove(){
     nextStep();
 }
 
+const dialogues=[
+[
+"That place wasn't just college...",
+"It was where my lonely story changed.",
+"It was where I saw my future in your eyes.",
+"From that day, you became my forever."
+],
+[
+"Brahmastra had magic on screen...",
+"But our love had magic in real life.",
+"That movie night was simple...",
+"But it became one of my favorite memories."
+],
+[
+"Cricket was once my world...",
+"But then you became my universe.",
+"Matches ended...",
+"But my love for you never will."
+],
+[
+"Cars give me speed...",
+"But you give me direction.",
+"Every road I drive...",
+"Leads me back to you."
+]
+];
+
+const questions=[
+"Where did we first meet?",
+"Our first movie?",
+"Hari's favourite sport?",
+"Hari's favourite thing?"
+];
+
+const answers=["college","brahmastra","cricket","car"];
+
 function nextStep(){
     let q=document.getElementById("quiz");
 
-    const dialogues=[
-        [
-        "That place wasn't just college...",
-        "It was where my lonely story changed.",
-        "It was where I saw my future in your eyes.",
-        "From that day, you became my forever."
-        ],
-        [
-        "Brahmastra had magic on screen...",
-        "But our love had magic in real life.",
-        "That movie night was simple...",
-        "But it became one of my favorite memories."
-        ],
-        [
-        "Cricket was once my world...",
-        "But then you became my universe.",
-        "Matches ended...",
-        "But my love for you never will."
-        ],
-        [
-        "Cars give me speed...",
-        "But you give me direction.",
-        "Every road I drive...",
-        "Leads me back to you."
-        ]
-    ];
-
     if(step<=3){
-        const questions=[
-            "Where did we first meet?",
-            "Our first movie?",
-            "Hari's favourite sport?",
-            "Hari's favourite thing?"
-        ];
-
-        const answers=["college","brahmastra","cricket","car"];
-
         q.innerHTML=`
         <h1>${questions[step]}</h1>
         <input id="ans"><br>
@@ -232,33 +259,6 @@ function checkAnswer(correct){
 
 function showDialogue(index){
     let q=document.getElementById("quiz");
-    const dialogues=[
-        [
-        "That place wasn't just college...",
-        "It was where my lonely story changed.",
-        "It was where I saw my future in your eyes.",
-        "From that day, you became my forever."
-        ],
-        [
-        "Brahmastra had magic on screen...",
-        "But our love had magic in real life.",
-        "That movie night was simple...",
-        "But it became one of my favorite memories."
-        ],
-        [
-        "Cricket was once my world...",
-        "But then you became my universe.",
-        "Matches ended...",
-        "But my love for you never will."
-        ],
-        [
-        "Cars give me speed...",
-        "But you give me direction.",
-        "Every road I drive...",
-        "Leads me back to you."
-        ]
-    ];
-
     q.innerHTML="<h1>❤️</h1>";
     dialogues[index].forEach(line=>{
         let p=document.createElement("p");
@@ -313,7 +313,7 @@ function showProposal(){
     audio.play();
 
     setTimeout(()=>{
-        for(let i=0;i<120;i++){
+        for(let i=0;i<150;i++){
             let heart=document.createElement("div");
             heart.className="heart";
             heart.innerHTML="❤️";
