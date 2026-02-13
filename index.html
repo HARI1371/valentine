@@ -10,35 +10,27 @@ body{
     padding:0;
     font-family:'Segoe UI',sans-serif;
     text-align:center;
-    background:linear-gradient(135deg,#ff5f6d,#ffc371);
+    background:black;
     color:white;
     overflow:hidden;
 }
 
-/* Floating Hearts */
-.heart{
+/* Animated Background */
+body::before{
+    content:"";
     position:fixed;
-    bottom:-20px;
-    font-size:20px;
-    animation: floatUp 8s linear infinite;
-    opacity:0.8;
+    width:100%;
+    height:100%;
+    background:linear-gradient(45deg,#ff416c,#ff4b2b,#ff758c,#ff7eb3);
+    background-size:400% 400%;
+    animation:gradientMove 15s ease infinite;
+    z-index:-1;
 }
 
-@keyframes floatUp{
-    0%{transform:translateY(0) scale(1);}
-    100%{transform:translateY(-110vh) scale(1.5);opacity:0;}
-}
-
-/* Ring Shower */
-.ring{
-    position:fixed;
-    top:-50px;
-    font-size:30px;
-    animation: fallDown 5s linear forwards;
-}
-
-@keyframes fallDown{
-    to{transform:translateY(110vh);}
+@keyframes gradientMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
 }
 
 h1{margin-top:60px;font-size:34px;}
@@ -51,10 +43,15 @@ button{
     border-radius:12px;
     margin:15px;
     cursor:pointer;
+    background:#ff2e63;
+    color:white;
 }
 
-#yesBtn{background:#ff2e63;color:white;}
-#noBtn{background:white;color:#ff2e63;position:absolute;}
+#noBtn{
+    background:white;
+    color:#ff2e63;
+    position:absolute;
+}
 
 .hidden{display:none;}
 
@@ -64,22 +61,61 @@ input{
     border:none;
 }
 
+/* Slideshow FULL IMAGE FIX */
 .slideshow img{
-    width:280px;
-    height:380px;
-    object-fit:cover;
+    max-width:90%;
+    max-height:80vh;
+    object-fit:contain;
     border-radius:20px;
-    box-shadow:0 0 25px rgba(0,0,0,0.6);
+    box-shadow:0 0 30px rgba(0,0,0,0.6);
 }
 
+/* Floating Hearts */
+.heart{
+    position:fixed;
+    font-size:20px;
+    animation: floatUp 6s linear forwards;
+}
+
+@keyframes floatUp{
+    from{transform:translateY(0);}
+    to{transform:translateY(-120vh);}
+}
+
+/* Ring rain */
+.ring{
+    position:fixed;
+    font-size:30px;
+    animation: fallDown 5s linear forwards;
+}
+
+@keyframes fallDown{
+    to{transform:translateY(120vh);}
+}
+
+/* Fullscreen Center Layout */
+.fullscreen{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    text-align:center;
+}
+
+/* Big Center Text */
 .bigText{
-    font-size:45px;
-    animation: glow 2s infinite alternate;
+    font-size:55px;
+    animation:zoomIn 3s ease forwards;
 }
 
-@keyframes glow{
-    from{text-shadow:0 0 10px white;}
-    to{text-shadow:0 0 40px gold;}
+@keyframes zoomIn{
+    from{transform:scale(0.5);opacity:0;}
+    to{transform:scale(1);opacity:1;}
 }
 </style>
 </head>
@@ -88,32 +124,15 @@ input{
 
 <div id="page1">
 <h1>Will you be my Valentine, Nivetha? 💖</h1>
-<p>
-I searched for success…  
-Life said not here.  
-Then in college… I found you ❤️
-</p>
-<button id="yesBtn" onclick="startLove()">YES 💕</button>
+<p>I searched for success… and found you in college ❤️</p>
+<button onclick="startLove()">YES 💕</button>
 <button id="noBtn" onclick="moveButton()">NO 😏</button>
 </div>
 
 <div id="quiz" class="hidden"></div>
-<div id="compliment" class="hidden"></div>
-<div id="slideshowSection" class="hidden"></div>
-<div id="finalScreen" class="hidden"></div>
+<div id="slideshowSection" class="hidden slideshow"></div>
 
 <script>
-/* Floating Hearts */
-setInterval(()=>{
-    let heart=document.createElement("div");
-    heart.className="heart";
-    heart.innerHTML="❤️";
-    heart.style.left=Math.random()*100+"vw";
-    heart.style.fontSize=(15+Math.random()*30)+"px";
-    document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(),8000);
-},400);
-
 let noCount=0;
 let step=0;
 
@@ -135,51 +154,43 @@ function startLove(){
 
 function nextStep(){
     let q=document.getElementById("quiz");
-    let c=document.getElementById("compliment");
-    c.classList.add("hidden");
 
     if(step===0){
         q.innerHTML=`<h1>Where did we first meet?</h1>
         <input id="ans"><br>
-        <button onclick="checkAnswer('college','College ❤️ Destiny began there.')">Submit</button>`;
+        <button onclick="checkAnswer('college')">Submit</button>`;
     }
     else if(step===1){
-        q.innerHTML=`<h1>Our first movie together?</h1>
+        q.innerHTML=`<h1>Our first movie?</h1>
         <input id="ans"><br>
-        <button onclick="checkAnswer('brahmastra','Brahmastra 🎬 Our love has magic.')">Submit</button>`;
+        <button onclick="checkAnswer('brahmastra')">Submit</button>`;
     }
     else if(step===2){
         q.innerHTML=`<h1>Hari's favourite sport?</h1>
         <input id="ans"><br>
-        <button onclick="checkAnswer('cricket','He left cricket only for you ❤️')">Submit</button>`;
+        <button onclick="checkAnswer('cricket')">Submit</button>`;
     }
     else if(step===3){
         q.innerHTML=`<h1>Hari's favourite thing?</h1>
         <input id="ans"><br>
-        <button onclick="checkAnswer('car','Every drive reminds him of you 🚗❤️')">Submit</button>`;
+        <button onclick="checkAnswer('car')">Submit</button>`;
     }
     else{
         showSlideshow();
     }
 }
 
-function checkAnswer(correct,message){
+function checkAnswer(correct){
     let val=document.getElementById("ans").value.toLowerCase();
     if(val.includes(correct)){
-        document.getElementById("compliment").classList.remove("hidden");
-        document.getElementById("compliment").innerHTML=`<p>${message}</p>
-        <button onclick="continueFlow()">Continue ❤️</button>`;
+        step++;
+        nextStep();
     }else{
         alert("Think again 😌");
     }
 }
 
-function continueFlow(){
-    step++;
-    nextStep();
-}
-
-/* 6 Images */
+/* Images */
 let images=[
 "photo1.jpg",
 "photo2.jpg",
@@ -193,75 +204,71 @@ let index=0;
 
 function showSlideshow(){
     document.getElementById("quiz").classList.add("hidden");
-    document.getElementById("compliment").classList.add("hidden");
-
     let s=document.getElementById("slideshowSection");
     s.classList.remove("hidden");
 
-    s.innerHTML="<h1>Our Memories 💖</h1>";
     let img=document.createElement("img");
     img.src=images[index];
-    img.onerror=function(){this.src="https://via.placeholder.com/300x400?text=Upload+Photos";};
+    s.innerHTML="";
     s.appendChild(img);
 
     let interval=setInterval(()=>{
         index++;
         if(index>=images.length){
             clearInterval(interval);
-            setTimeout(showFinal,2000);
+            setTimeout(showProposal,2000);
             return;
         }
         img.src=images[index];
     },3000);
 }
 
-function showFinal(){
-    document.getElementById("slideshowSection").classList.add("hidden");
-    let f=document.getElementById("finalScreen");
-    f.classList.remove("hidden");
+function showProposal(){
 
-    f.innerHTML=`
-    <div class="bigText">
-    HARI LOVES YOU 💖<br><br>
-    More than anyone...  
-    More than anything...
+    document.body.innerHTML=`
+    <div class="fullscreen">
+        <div class="bigText">
+        HARI LOVES YOU 💖<br><br>
+        More than anyone...<br>
+        More than anything...
+        </div>
     </div>
-    <br><br>
-    <button onclick="lastTamil()">Final Surprise</button>
     `;
-}
 
-function lastTamil(){
-
-    // Ring shower
-    for(let i=0;i<30;i++){
-        let ring=document.createElement("div");
-        ring.className="ring";
-        ring.innerHTML="💍";
-        ring.style.left=Math.random()*100+"vw";
-        ring.style.animationDuration=(3+Math.random()*3)+"s";
-        document.body.appendChild(ring);
-    }
-
-    // Massive hearts explosion
-    for(let i=0;i<100;i++){
-        let heart=document.createElement("div");
-        heart.className="heart";
-        heart.innerHTML="❤️";
-        heart.style.left=Math.random()*100+"vw";
-        heart.style.fontSize=(20+Math.random()*40)+"px";
-        document.body.appendChild(heart);
-    }
-
-    // Grand music
-    let audio=new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3");
-    audio.volume=0.5;
+    let audio=new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3");
+    audio.volume=0.6;
     audio.play();
 
-    document.getElementById("finalScreen").innerHTML=`
-    <div class="bigText">
-    Na unaaa rombaa rombaaa robaaa rombaaa love panraaaaaaaa ❤️❤️❤️
-    </div>`;
+    setTimeout(()=>{
+        for(let i=0;i<150;i++){
+            let heart=document.createElement("div");
+            heart.className="heart";
+            heart.innerHTML="❤️";
+            heart.style.left=Math.random()*100+"vw";
+            heart.style.fontSize=(20+Math.random()*40)+"px";
+            document.body.appendChild(heart);
+        }
+    },2000);
+
+    setTimeout(()=>{
+        for(let i=0;i<40;i++){
+            let ring=document.createElement("div");
+            ring.className="ring";
+            ring.innerHTML="💍";
+            ring.style.left=Math.random()*100+"vw";
+            document.body.appendChild(ring);
+        }
+    },2500);
+
+    setTimeout(()=>{
+        document.body.innerHTML=`
+        <div class="fullscreen">
+            <div class="bigText">
+            Na unaaa rombaa rombaaa robaaa rombaaa love panraaaaaaaa ❤️❤️❤️
+            </div>
+        </div>
+        `;
+    },6000);
 }
 </script>
 
