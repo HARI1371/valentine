@@ -2,169 +2,212 @@
 <html>
 <head>
     <title>For Nivetha ❤️</title>
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(to right, #ff758c, #ff7eb3);
-            text-align: center;
-            font-family: 'Segoe UI', sans-serif;
-            overflow-x: hidden;
-        }
+<style>
+body{
+    margin:0;
+    padding:0;
+    font-family:'Segoe UI',sans-serif;
+    text-align:center;
+    background:linear-gradient(135deg,#ff758c,#ff7eb3);
+    color:white;
+    overflow:hidden;
+}
 
-        h1 {
-            color: white;
-            font-size: 38px;
-            margin-top: 80px;
-        }
+h1{
+    margin-top:70px;
+    font-size:35px;
+}
 
-        p {
-            color: white;
-            font-size: 18px;
-            width: 80%;
-            margin: 20px auto;
-            line-height: 1.6;
-        }
+p{
+    width:80%;
+    margin:20px auto;
+    font-size:18px;
+    line-height:1.6;
+}
 
-        button {
-            padding: 15px 30px;
-            font-size: 18px;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            margin: 20px;
-            transition: 0.3s;
-        }
+button{
+    padding:15px 30px;
+    font-size:18px;
+    border:none;
+    border-radius:12px;
+    margin:15px;
+    cursor:pointer;
+    transition:0.3s;
+}
 
-        #yesBtn {
-            background-color: #ff2e63;
-            color: white;
-        }
+button:hover{
+    transform:scale(1.1);
+}
 
-        #yesBtn:hover {
-            transform: scale(1.1);
-        }
+#yesBtn{background:#ff2e63;color:white;}
+#noBtn{background:white;color:#ff2e63;position:absolute;}
 
-        #noBtn {
-            background-color: white;
-            color: #ff2e63;
-            position: absolute;
-        }
+.hidden{display:none;}
 
-        .hidden {
-            display: none;
-        }
+input{
+    padding:10px;
+    border-radius:8px;
+    border:none;
+    font-size:16px;
+}
 
-        input {
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 8px;
-            border: none;
-            margin-top: 15px;
-        }
-    </style>
+.bigText{
+    font-size:45px;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow{
+    from{text-shadow:0 0 10px white;}
+    to{text-shadow:0 0 30px yellow;}
+}
+
+.fadeIn{
+    animation: fade 2s forwards;
+}
+
+@keyframes fade{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+</style>
 </head>
 
 <body>
 
+<div id="page1">
 <h1>Will you be my Valentine, Nivetha? 💖</h1>
-
 <p>
-I once went searching for success…  
+I went searching for success…  
 The sky whispered, “This is not your place.”  
+I fought problems, chose higher studies, walked alone...  
 
-I walked through storms.  
-I chose higher studies.  
-I faced problems alone.  
-
-And in the middle of all that chaos…  
+And then...  
+In my college life…  
 I found you.  
 
-Like every movie where destiny brings two souls together…  
-You weren’t part of my plan —  
-You became my forever. ❤️
+Like destiny writing my love story itself ❤️
 </p>
-
-<button id="yesBtn" onclick="yesClicked()">YES 💕</button>
+<button id="yesBtn" onclick="startLove()">YES 💕</button>
 <button id="noBtn" onclick="moveButton()">NO 😏</button>
-
-<div id="puzzleSection" class="hidden">
-    <h1>Prove Your Love 😌💘</h1>
-    <p>Where did our story truly begin?</p>
-    <input type="text" id="answer1" placeholder="Type your answer">
-    <br>
-    <button onclick="checkAnswer()">Submit</button>
 </div>
 
-<div id="finalMessage" class="hidden">
-    <h1>Nivetha 💖</h1>
-    <p>
-    You are not just someone I love.  
-    You are the peace after my storms.  
-    The smile after my struggles.  
+<div id="quiz" class="hidden"></div>
 
-    If life is a movie,  
-    you are my favorite scene. 🎬❤️  
-
-    I choose you.  
-    Today. Tomorrow. Forever.  
-
-    This is just the beginning of our beautiful story.
-    </p>
-</div>
+<div id="finalScreen" class="hidden"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
-let count = 0;
+let noCount=0;
+let step=0;
 
-function moveButton() {
-    count++;
-    let button = document.getElementById("noBtn");
-    let x = Math.random() * (window.innerWidth - 100);
-    let y = Math.random() * (window.innerHeight - 100);
-    button.style.left = x + "px";
-    button.style.top = y + "px";
+function moveButton(){
+    noCount++;
+    let btn=document.getElementById("noBtn");
+    btn.style.left=Math.random()*(window.innerWidth-100)+"px";
+    btn.style.top=Math.random()*(window.innerHeight-100)+"px";
 
-    if (count >= 3) {
-        alert("Nivetha 😌 destiny already chose YES ❤️");
+    if(noCount>=3){
+        alert("Nivetha 😌 Destiny already chose YES ❤️");
     }
 }
 
-function yesClicked() {
-    document.getElementById("yesBtn").style.display = "none";
-    document.getElementById("noBtn").style.display = "none";
-    document.getElementById("puzzleSection").classList.remove("hidden");
-
-    confetti({
-        particleCount: 200,
-        spread: 120,
-        origin: { y: 0.6 }
-    });
-
-    let audio = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
-    audio.volume = 0.3;
-    audio.play();
+function startLove(){
+    document.getElementById("page1").classList.add("hidden");
+    document.getElementById("quiz").classList.remove("hidden");
+    confetti({particleCount:200,spread:120});
+    nextStep();
 }
 
-function checkAnswer() {
-    let answer = document.getElementById("answer1").value.toLowerCase();
+function nextStep(){
+    let q=document.getElementById("quiz");
 
-    if (answer.includes("college") || answer.includes("work") || answer.includes("there")) {
-        document.getElementById("puzzleSection").classList.add("hidden");
-        document.getElementById("finalMessage").classList.remove("hidden");
+    if(step===0){
+        q.innerHTML=`<h1>Question 1 💘</h1>
+        <p>Where did we first meet?</p>
+        <input id="ans">
+        <br><button onclick="checkAnswer('college')">Submit</button>`;
+    }
 
-        confetti({
-            particleCount: 300,
-            spread: 150,
-            origin: { y: 0.6 }
-        });
-    } else {
+    else if(step===1){
+        q.innerHTML=`<h1>Question 2 🎬</h1>
+        <p>What was our first movie together?</p>
+        <input id="ans">
+        <br><button onclick="checkAnswer('brahmastra')">Submit</button>`;
+    }
+
+    else if(step===2){
+        q.innerHTML=`<h1>Question 3 🏏</h1>
+        <p>What is Hari's favourite sport?</p>
+        <input id="ans">
+        <br><button onclick="checkAnswer('cricket')">Submit</button>`;
+    }
+
+    else if(step===3){
+        q.innerHTML=`<h1>Secret Message ❤️</h1>
+        <p>He left cricket... only because of you.  
+        No one else can ever get this love from him.</p>
+        <button onclick="nextStep()">Continue</button>`;
+    }
+
+    else if(step===4){
+        q.innerHTML=`<h1>Question 4 🚗</h1>
+        <p>What is Hari's favourite thing?</p>
+        <input id="ans">
+        <br><button onclick="checkAnswer('car')">Submit</button>`;
+    }
+
+    else if(step===5){
+        q.innerHTML=`<h1>Driving Thoughts 💭</h1>
+        <p>Every time he drives...  
+        Every road reminds him of you.  
+        Every destination feels incomplete without you ❤️</p>
+        <button onclick="nextStep()">Continue</button>`;
+    }
+
+    else{
+        showFinal();
+    }
+}
+
+function checkAnswer(correct){
+    let val=document.getElementById("ans").value.toLowerCase();
+    if(val.includes(correct)){
+        step++;
+        nextStep();
+    }else{
         alert("Think again my love 😌❤️");
     }
+}
+
+function showFinal(){
+    document.getElementById("quiz").classList.add("hidden");
+    let f=document.getElementById("finalScreen");
+    f.classList.remove("hidden");
+    f.classList.add("fadeIn");
+
+    f.innerHTML=`
+    <div class="bigText">
+    HARI LOVES YOU 💖<br><br>
+    More than anyone could...  
+    More than anything in this world...  
+    Hari loves you ❤️
+    </div>
+    <br><br>
+    <button onclick="lastTamil()">Final Surprise</button>
+    `;
+
+    confetti({particleCount:400,spread:150});
+}
+
+function lastTamil(){
+    document.getElementById("finalScreen").innerHTML=`
+    <div class="bigText">
+    Na unaaaa rombaaaaa loveeeee panraaaaaaaa ❤️❤️❤️
+    </div>`;
+    confetti({particleCount:500,spread:200});
 }
 </script>
 
