@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>For Nivetha ❤️</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Nivetha ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
@@ -12,24 +12,15 @@ body{
     text-align:center;
     background:linear-gradient(135deg,#ff758c,#ff7eb3);
     color:white;
-    overflow:hidden;
+    overflow-x:hidden;
 }
 
-h1{
-    margin-top:70px;
-    font-size:35px;
-}
-
-p{
-    width:80%;
-    margin:20px auto;
-    font-size:18px;
-    line-height:1.6;
-}
+h1{margin-top:60px;font-size:34px;}
+p{width:85%;margin:20px auto;font-size:18px;line-height:1.6;}
 
 button{
-    padding:15px 30px;
-    font-size:18px;
+    padding:14px 28px;
+    font-size:17px;
     border:none;
     border-radius:12px;
     margin:15px;
@@ -37,10 +28,7 @@ button{
     transition:0.3s;
 }
 
-button:hover{
-    transform:scale(1.1);
-}
-
+button:hover{transform:scale(1.1);}
 #yesBtn{background:#ff2e63;color:white;}
 #noBtn{background:white;color:#ff2e63;position:absolute;}
 
@@ -53,23 +41,28 @@ input{
     font-size:16px;
 }
 
+.slideshow img{
+    width:280px;
+    height:380px;
+    object-fit:cover;
+    border-radius:20px;
+    box-shadow:0 0 20px rgba(0,0,0,0.5);
+    animation:fade 2s;
+}
+
+@keyframes fade{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
 .bigText{
-    font-size:45px;
+    font-size:42px;
     animation: glow 2s infinite alternate;
 }
 
 @keyframes glow{
     from{text-shadow:0 0 10px white;}
     to{text-shadow:0 0 30px yellow;}
-}
-
-.fadeIn{
-    animation: fade 2s forwards;
-}
-
-@keyframes fade{
-    from{opacity:0;}
-    to{opacity:1;}
 }
 </style>
 </head>
@@ -79,22 +72,21 @@ input{
 <div id="page1">
 <h1>Will you be my Valentine, Nivetha? 💖</h1>
 <p>
-I went searching for success…  
-The sky whispered, “This is not your place.”  
-I fought problems, chose higher studies, walked alone...  
+I searched for success…  
+Life whispered “Not here.”  
+I chose higher studies.  
+Faced problems alone.  
 
-And then...  
-In my college life…  
-I found you.  
-
-Like destiny writing my love story itself ❤️
+And then in college…  
+I found you. ❤️  
 </p>
 <button id="yesBtn" onclick="startLove()">YES 💕</button>
 <button id="noBtn" onclick="moveButton()">NO 😏</button>
 </div>
 
 <div id="quiz" class="hidden"></div>
-
+<div id="compliment" class="hidden"></div>
+<div id="slideshowSection" class="hidden"></div>
 <div id="finalScreen" class="hidden"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -108,9 +100,8 @@ function moveButton(){
     let btn=document.getElementById("noBtn");
     btn.style.left=Math.random()*(window.innerWidth-100)+"px";
     btn.style.top=Math.random()*(window.innerHeight-100)+"px";
-
     if(noCount>=3){
-        alert("Nivetha 😌 Destiny already chose YES ❤️");
+        alert("Destiny already chose YES 😌❤️");
     }
 }
 
@@ -123,70 +114,90 @@ function startLove(){
 
 function nextStep(){
     let q=document.getElementById("quiz");
+    let c=document.getElementById("compliment");
+    c.classList.add("hidden");
 
     if(step===0){
-        q.innerHTML=`<h1>Question 1 💘</h1>
-        <p>Where did we first meet?</p>
-        <input id="ans">
-        <br><button onclick="checkAnswer('college')">Submit</button>`;
+        q.innerHTML=`<h1>Where did we first meet?</h1>
+        <input id="ans"><br>
+        <button onclick="checkAnswer('college','College ❤️ The place where destiny started writing our love story.')">Submit</button>`;
     }
-
     else if(step===1){
-        q.innerHTML=`<h1>Question 2 🎬</h1>
-        <p>What was our first movie together?</p>
-        <input id="ans">
-        <br><button onclick="checkAnswer('brahmastra')">Submit</button>`;
+        q.innerHTML=`<h1>What was our first movie together?</h1>
+        <input id="ans"><br>
+        <button onclick="checkAnswer('brahmastra','Brahmastra 🎬 Just like that movie, our love has magic.')">Submit</button>`;
     }
-
     else if(step===2){
-        q.innerHTML=`<h1>Question 3 🏏</h1>
-        <p>What is Hari's favourite sport?</p>
-        <input id="ans">
-        <br><button onclick="checkAnswer('cricket')">Submit</button>`;
+        q.innerHTML=`<h1>Hari's favourite sport?</h1>
+        <input id="ans"><br>
+        <button onclick="checkAnswer('cricket','Cricket 🏏 But he left that love... because you became his world.')">Submit</button>`;
     }
-
     else if(step===3){
-        q.innerHTML=`<h1>Secret Message ❤️</h1>
-        <p>He left cricket... only because of you.  
-        No one else can ever get this love from him.</p>
-        <button onclick="nextStep()">Continue</button>`;
+        q.innerHTML=`<h1>Hari's favourite thing?</h1>
+        <input id="ans"><br>
+        <button onclick="checkAnswer('car','Cars 🚗 Every time he drives, he only thinks about you.')">Submit</button>`;
     }
-
-    else if(step===4){
-        q.innerHTML=`<h1>Question 4 🚗</h1>
-        <p>What is Hari's favourite thing?</p>
-        <input id="ans">
-        <br><button onclick="checkAnswer('car')">Submit</button>`;
-    }
-
-    else if(step===5){
-        q.innerHTML=`<h1>Driving Thoughts 💭</h1>
-        <p>Every time he drives...  
-        Every road reminds him of you.  
-        Every destination feels incomplete without you ❤️</p>
-        <button onclick="nextStep()">Continue</button>`;
-    }
-
     else{
-        showFinal();
+        showSlideshow();
     }
 }
 
-function checkAnswer(correct){
+function checkAnswer(correct,message){
     let val=document.getElementById("ans").value.toLowerCase();
     if(val.includes(correct)){
-        step++;
-        nextStep();
+        document.getElementById("compliment").classList.remove("hidden");
+        document.getElementById("compliment").innerHTML=`<p>${message}</p>
+        <button onclick="continueFlow()">Continue ❤️</button>`;
+        confetti({particleCount:150,spread:100});
     }else{
-        alert("Think again my love 😌❤️");
+        alert("Think again my love 😌");
     }
+}
+
+function continueFlow(){
+    step++;
+    nextStep();
+}
+
+let images=[
+"photo1.jpg",
+"photo2.jpg",
+"photo3.jpg",
+"photo4.jpg",
+"photo5.jpg",
+"photo6.jpg"
+];
+
+let index=0;
+
+function showSlideshow(){
+    document.getElementById("quiz").classList.add("hidden");
+    document.getElementById("compliment").classList.add("hidden");
+
+    let s=document.getElementById("slideshowSection");
+    s.classList.remove("hidden");
+    s.classList.add("slideshow");
+
+    s.innerHTML="<h1>Our Beautiful Memories 💖</h1>";
+    let img=document.createElement("img");
+    img.src=images[index];
+    s.appendChild(img);
+
+    let interval=setInterval(()=>{
+        index++;
+        if(index>=images.length){
+            clearInterval(interval);
+            setTimeout(showFinal,2000);
+            return;
+        }
+        img.src=images[index];
+    },3000);
 }
 
 function showFinal(){
-    document.getElementById("quiz").classList.add("hidden");
+    document.getElementById("slideshowSection").classList.add("hidden");
     let f=document.getElementById("finalScreen");
     f.classList.remove("hidden");
-    f.classList.add("fadeIn");
 
     f.innerHTML=`
     <div class="bigText">
